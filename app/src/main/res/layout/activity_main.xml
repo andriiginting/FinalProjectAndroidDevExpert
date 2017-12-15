@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_card"
+    tools:context="com.example.andriginting.myapplication.MainActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marginStd"
+            android:layout_marginRight="@dimen/marginStd"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:hint="@string/cari_film" />
+
+            <Button
+                android:id="@+id/btn_cari_film"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color_button_unguMuda"
+                android:layout_margin="5dp"
+                android:textColor="@android:color/white"
+                android:text="Cari" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginStd"
+        app:cardCornerRadius="10dp"
+        android:layout_below="@+id/cardview_search"
+        >
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_movie_list"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/marginStd"
+    android:layout_height="match_parent"/>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

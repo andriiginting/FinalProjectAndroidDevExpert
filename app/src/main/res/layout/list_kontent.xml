@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<ImageView
+    android:id="@+id/image_movie_list"
+    android:layout_width="60dp"
+    android:layout_height="100dp"
+    android:layout_marginLeft="@dimen/marginStd"
+    android:src="@mipmap/ic_launcher"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/marginStd"
+        android:layout_gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/txtJudul_movie_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ini Judul"/>
+
+        <TextView
+            android:id="@+id/txtDeskripsi_movie_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ini Deskripsi"/>
+        <TextView
+            android:id="@+id/txtTayang_movie_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ini Tanggal Tayang"/>
+
+
+    </LinearLayout>
+</LinearLayout>
