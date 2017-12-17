@@ -16,7 +16,6 @@ public interface APIInterface {
     Call<MovieResponse>getPopularMovies(@Query("api_key") String apiKey);
 
     //untuk search
-    //https://api.themoviedb.org/3/search/movie?api_key=f38bc9d1907b81b6b4f890fc62c73a61&language=en-US&query=it&page=1
-    @GET("/search/movie")
-    Call<MovieResponse> getMovieItems (@Query("api_key") String api_key,@Query("query") String name_movie);
+    @GET("search/movie")
+    Call<MovieResponse> getMovieItems (@Query("api_key") String apiKey,@Query("query") String nameMovie);
 }
