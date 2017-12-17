@@ -33,39 +33,25 @@ public class MainActivity extends AppCompatActivity {
 
     MovieListAdapter adapter;
     private static final String TAG = "searchMovie";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (BuildConfig.API_KEY.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Terjadi kesalahan",Toast.LENGTH_SHORT).show();
+        if (BuildConfig.API_KEY.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
         }
 
         recyclerView = findViewById(R.id.recycler_movie_list);
         edtSearchMovie = findViewById(R.id.edt_search);
         btnSearchMovie = findViewById(R.id.btn_cari_film);
-        adapter = new MovieListAdapter(movieList,R.layout.list_kontent,getApplicationContext());
+        adapter = new MovieListAdapter(movieList, R.layout.list_kontent, getApplicationContext());
         adapter.notifyDataSetChanged();
 
         //getPopularMovie();
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-        APIInterface apiInterface = APIClient.getRetrofitClient().create(APIInterface.class);
-        Call<MovieResponse> call = apiInterface.getPopularMovies(BuildConfig.API_KEY);
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-               movieList = response.body().getResults();
-                recyclerView.setAdapter(new MovieListAdapter(movieList, R.layout.list_kontent, getApplicationContext()));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-
-            }
-        });
+        getPopularMovie();
 
         btnSearchMovie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //method untuk mencari film
-    private void getMovieSearch(){
+    private void getMovieSearch() {
         String inputan = edtSearchMovie.getText().toString();
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -85,16 +71,16 @@ public class MainActivity extends AppCompatActivity {
                 .getRetrofitClient()
                 .create(APIInterface.class);
 
-        Call<MovieResponse> call = apiInterface.getMovieItems(BuildConfig.API_KEY,inputan);
+        Call<MovieResponse> call = apiInterface.getMovieItems(BuildConfig.API_KEY, inputan);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 movieList = response.body().getResults();
-                if (movieList.size() == 0 ){
+                if (movieList.size() == 0) {
 
                     Toast.makeText(getApplicationContext(), "maaf data yang anda cari tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onResponse: hasil pemanggilan"+ call);
-                }else {
+                    Log.e(TAG, "onResponse: hasil pemanggilan" + call);
+                } else {
                     recyclerView.setAdapter(new MovieListAdapter(movieList, R.layout.list_kontent, getApplicationContext()));
                     adapter.notifyDataSetChanged();
                 }
@@ -102,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.e("erorr",t.getMessage());
+                Log.e("erorr", t.getMessage());
             }
         });
     }
 
-    private void getPopularMovie(){
+    private void getPopularMovie() {
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         APIInterface apiInterface = APIClient.getRetrofitClient().create(APIInterface.class);
