@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_card"
-    tools:context="com.example.andriginting.myapplication.MainActivity">
+    tools:context="com.example.andriginting.myapplication.activity.MainActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_search"

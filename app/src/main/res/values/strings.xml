@@ -2,4 +2,13 @@
     <string name="app_name">Catalogue Movie</string>
     <string name="cari_film">Cari Film Kamu Disini</string>
     <string name="MOVIE_API_KEY">f38bc9d1907b81b6b4f890fc62c73a61</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main_ui">Catalogue Movie Ui Ux </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

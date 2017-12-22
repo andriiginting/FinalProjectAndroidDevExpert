@@ -1,4 +1,4 @@
-package com.example.andriginting.myapplication;
+package com.example.andriginting.myapplication.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.andriginting.myapplication.BuildConfig;
+import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.MovieListAdapter;
 import com.example.andriginting.myapplication.model.Movie;
 import com.example.andriginting.myapplication.model.MovieResponse;

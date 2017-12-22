@@ -1,14 +1,17 @@
 package com.example.andriginting.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.andriginting.myapplication.R;
+import com.example.andriginting.myapplication.activity.DetailMovieActivity;
 import com.example.andriginting.myapplication.model.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +43,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(MovieListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MovieListAdapter.ViewHolder holder, final int position) {
         String url_image = "http://image.tmdb.org/t/p/w342/";
 
         holder.judul.setText(movieList.get(position).getTitle());
@@ -52,6 +55,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                 .resize(300,400)
                 .into(holder.imageMovie);
 
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailMovieActivity.class);
+                intent.putExtra("judul",movieList.get(position).getOriginalTitle());
+                intent.putExtra("keterangan",movieList.get(position).getOverview());
+                intent.putExtra("gambar",movieList.get(position).getPosterPath());
+                intent.putExtra("date",movieList.get(position).getReleaseDate());
+
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -62,6 +78,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imageMovie;
         TextView judul, keterangan, tanggalRilis;
+        LinearLayout linearLayout;
 
         public ViewHolder(View v) {
             super(v);
@@ -70,6 +87,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             judul = v.findViewById(R.id.txtJudul_movie_list);
             keterangan = v.findViewById(R.id.txtDeskripsi_movie_list);
             tanggalRilis = v.findViewById(R.id.txtTayang_movie_list);
+            linearLayout = v.findViewById(R.id.linear_layout_konten);
         }
     }
 }
