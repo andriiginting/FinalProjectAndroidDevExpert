@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.andriginting.myapplication.R;
 import com.squareup.picasso.Picasso;
 
+import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL;
+
 public class DetailMovieActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
 
     TextView judul,tanggalRilis, deskripsi,rating;
@@ -42,7 +44,7 @@ public class DetailMovieActivity extends AppCompatActivity implements LoaderMana
         getSupportActionBar().setTitle(judulFilm);
 
         Picasso.with(getApplicationContext())
-                .load(url_image+gambarFilm)
+                .load(IMAGE_URL+gambarFilm)
                 .fit()
                 .into(backdrop);
 

@@ -2,8 +2,12 @@ package com.example.andriginting.myapplication.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL;
 
 /**
  * Created by Andri Ginting on 12/16/2017.
@@ -71,6 +75,29 @@ public class Movie {
         this.video = video;
         this.voteAverage = voteAverage;
     }
+
+    public Movie(JSONObject object) {
+        try {
+            int id = object.getInt("id");
+            String title = object.getString("title");
+            String description = object.getString("overview");
+            double movieRatet = object.getDouble("vote_average");
+            String releaseDate = object.getString("release_date");
+            String posterUrl = object.getString("poster_path");
+            posterUrl = IMAGE_URL + "w185" + posterUrl;
+            description = description.length() <= 5  ? description.substring(0,5)+"...":description;
+
+            this.id = id;
+            this.title = title;
+            this.overview = description;
+            this.releaseDate = releaseDate;
+            this.posterPath = posterUrl;
+            this.voteAverage = movieRatet;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public String getPosterPath() {
         return posterPath;

@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL;
+
 /**
  * Created by Andri Ginting on 12/16/2017.
  */
@@ -44,14 +46,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(MovieListAdapter.ViewHolder holder, final int position) {
-        String url_image = "http://image.tmdb.org/t/p/w342/";
-
         holder.judul.setText(movieList.get(position).getTitle());
         holder.keterangan.setText(movieList.get(position).getOverview());
         holder.tanggalRilis.setText(movieList.get(position).getReleaseDate());
 
         Picasso.with(context)
-                .load(url_image+movieList.get(position).getPosterPath())
+                .load(IMAGE_URL+movieList.get(position).getPosterPath())
                 .resize(300,400)
                 .into(holder.imageMovie);
 

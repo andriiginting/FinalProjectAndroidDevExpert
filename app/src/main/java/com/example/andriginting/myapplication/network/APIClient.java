@@ -11,6 +11,7 @@ public class APIClient {
 
     public static final String BASE_URL = "http://api.themoviedb.org/3/";
     public static Retrofit retrofit = null;
+    public static String IMAGE_URL = "http://image.tmdb.org/t/p/w342/";
 
     public static Retrofit getRetrofitClient(){
         if (retrofit == null){

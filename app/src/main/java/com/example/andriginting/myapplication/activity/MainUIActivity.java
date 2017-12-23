@@ -3,36 +3,65 @@ package com.example.andriginting.myapplication.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.andriginting.myapplication.R;
+import com.example.andriginting.myapplication.adapter.MoviePagerAdapter;
+import com.example.andriginting.myapplication.fragment.NowPlayingFragment;
+import com.example.andriginting.myapplication.fragment.UpComingFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainUIActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+
         setSupportActionBar(toolbar);
 
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView =  findViewById(R.id.nav_view);
+        setupViewPager(viewPager);
+
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+//        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccent));
+//        tabLayout.setSelectedTabIndicatorHeight(2);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         navigationView.setNavigationItemSelectedListener(this);
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -73,15 +102,9 @@ public class MainUIActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+            viewPager.setCurrentItem(1);
         } else if (id == R.id.nav_first_project) {
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
@@ -90,5 +113,12 @@ public class MainUIActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void setupViewPager(ViewPager viewPager){
+        MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new UpComingFragment());
+        adapter.addFrag(new NowPlayingFragment());
+        viewPager.setAdapter(adapter);
+
     }
 }

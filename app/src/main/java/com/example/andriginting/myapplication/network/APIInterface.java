@@ -18,4 +18,12 @@ public interface APIInterface {
     //untuk search
     @GET("search/movie")
     Call<MovieResponse> getMovieItems (@Query("api_key") String apiKey,@Query("query") String nameMovie);
+
+    //untuk upcoming
+    @GET("movie/upcoming")
+    Call<MovieResponse> getUpcomingMovies (@Query("api_key") String apiKey);
+
+    //untuk now playing
+    @GET("movie/now_playing")
+    Call<MovieResponse> getNowPlayingMovies(@Query("api_key") String apiKey);
 }

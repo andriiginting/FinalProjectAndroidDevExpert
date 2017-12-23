@@ -5,10 +5,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main_ui">Catalogue Movie Ui Ux </string>
+    <string name="title_activity_main_ui">Catalogue Movie Go-Jek </string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="search_movie">Search Movie</string>
 </resources>

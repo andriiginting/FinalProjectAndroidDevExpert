@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MovieListAdapter(movieList, R.layout.list_kontent, getApplicationContext());
         adapter.notifyDataSetChanged();
 
-        //getPopularMovie();
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         getPopularMovie();
 
