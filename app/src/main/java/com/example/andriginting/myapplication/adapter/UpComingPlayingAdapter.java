@@ -1,6 +1,7 @@
 package com.example.andriginting.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andriginting.myapplication.R;
+import com.example.andriginting.myapplication.activity.DetailMovieActivity;
 import com.example.andriginting.myapplication.model.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +42,7 @@ public class UpComingPlayingAdapter  extends RecyclerView.Adapter<UpComingPlayin
     }
 
     @Override
-    public void onBindViewHolder(UpComingPlayingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(UpComingPlayingAdapter.ViewHolder holder, final int position) {
 
         holder.judul.setText(movieList.get(position).getTitle());
         holder.deskripsi.setText(movieList.get(position).getOverview());
@@ -50,6 +52,31 @@ public class UpComingPlayingAdapter  extends RecyclerView.Adapter<UpComingPlayin
                 .resize(350,450)
                 .into(holder.imagePoster);
 
+        holder.detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailMovieActivity.class);
+                intent.putExtra("judul",movieList.get(position).getOriginalTitle());
+                intent.putExtra("keterangan",movieList.get(position).getOverview());
+                intent.putExtra("gambar",movieList.get(position).getPosterPath());
+                intent.putExtra("date",movieList.get(position).getReleaseDate());
+                view.getContext().startActivity(intent);
+            }
+        });
+
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String base_url_info_film = "https://www.themoviedb.org/movie/";
+
+                // share url_info_film menggunakan intent
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, base_url_info_film+movieList.get(position).getId());
+                view.getContext().startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+            }
+        });
     }
 
     @Override
