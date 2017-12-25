@@ -7,23 +7,27 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/clapperboard"
-            android:title="Up Coming" />
+            android:title="@string/up_coming" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/urgent"
-            android:title="Now Playing" />
+            android:title="@string/now_playing" />
+        <item
+            android:id="@+id/nav_favorit"
+            android:icon="@drawable/star"
+            android:title="@string/favorite_movie"/>
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />
+            android:title="@string/settings" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_first_project"
                 android:icon="@drawable/ic_menu_send"
-                android:title="First Project" />
+                android:title="@string/first_project" />
         </menu>
     </item>
 

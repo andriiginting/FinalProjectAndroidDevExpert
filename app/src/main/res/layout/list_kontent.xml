@@ -24,18 +24,18 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Ini Judul"/>
+            android:text="@string/ini_judul_hint"/>
 
         <TextView
             android:id="@+id/txtDeskripsi_movie_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="Ini Deskripsi"/>
+            android:text="@string/ini_deskripsi_hint"/>
         <TextView
             android:id="@+id/txtTayang_movie_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ini Tanggal Tayang"/>
+            android:text="@string/ini_tanggal_rilis_hint"/>
     </LinearLayout>
 </LinearLayout>

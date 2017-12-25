@@ -29,7 +29,7 @@
                 android:id="@+id/txtJudul_movie_list_pager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ini Judul"
+                android:text="@string/ini_judul_hint"
                 android:textSize="20sp"
                 android:layout_marginBottom="@dimen/marginStd"
                 android:textStyle="bold" />
@@ -38,7 +38,7 @@
                 android:id="@+id/txtDeskripsi_movie_list_pager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ini Deskripsi"
+                android:text="@string/ini_deskripsi_hint"
                 android:layout_marginBottom="5dp"
                 android:maxLines="3"
                 android:textSize="16sp" />
@@ -47,7 +47,7 @@
                 android:id="@+id/txtTanggal_rilis_movie_list_pager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ini Tanggal Rilis"
+                android:text="@string/ini_tanggal_rilis_hint"
                 android:layout_marginBottom="@dimen/marginStd"
                 android:textSize="16sp" />
 
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@color/bg_color_button_unguMuda"
-                    android:text="Detail"
+                    android:text="@string/detail"
                     android:textColor="@android:color/white" />
 
                 <Button
@@ -74,7 +74,7 @@
                     android:layout_marginLeft="@dimen/marginStd"
                     android:layout_marginTop="5dp"
                     android:background="@color/bg_color_button_unguMuda"
-                    android:text="Share"
+                    android:text="@string/share"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>

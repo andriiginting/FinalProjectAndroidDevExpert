@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katalog FIlm</string>
+    <string name="cari_film">Cari Film Kamu Disini</string>
+    <string name="MOVIE_API_KEY">f38bc9d1907b81b6b4f890fc62c73a61</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_main_ui">Katalog Film Go-Jek </string>
+
+    <string name="navigation_drawer_open">Buka Navigasi drawer</string>
+    <string name="navigation_drawer_close">Tutup Navigasi drawer</string>
+
+    <string name="action_settings">Pengaturan</string>
+    <string name="search_movie">Cari Film</string>
+    <string name="up_coming">Mendatang</string>
+    <string name="now_playing">Putar Saat Ini</string>
+    <string name="settings">Pengaturan</string>
+    <string name="communicate">Lainnya</string>
+    <string name="first_project">Projek Pertama</string>
+    <string name="detail">Detail</string>
+    <string name="share">Bagikan</string>
+    <string name="favorite_movie">Film Kesukaan</string>
+</resources>

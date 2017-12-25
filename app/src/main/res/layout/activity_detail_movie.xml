@@ -11,10 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
         <ImageView
             android:id="@+id/image_back_drop_detail"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
@@ -32,7 +34,7 @@
                 android:paddingRight="16dp"
                 android:textStyle="bold"
                 android:textColor="#555555"
-                android:text="ini judul"
+                android:text="@string/ini_judul_hint"
                 android:textSize="23sp" />
 
 
@@ -41,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="16dp"
-                android:text="ini subtittle"
+                android:text="@string/ini_subtittle_hint"
                 android:textColor="#707070" />
 
             <TextView
@@ -49,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="3"
-                android:text="ini deskripsi"
+                android:text="@string/ini_deskripsi_hint"
                 android:paddingRight="16dp"
                 android:textColor="#707070" />
 

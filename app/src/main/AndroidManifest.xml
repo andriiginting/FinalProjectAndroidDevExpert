@@ -16,7 +16,7 @@
         </activity>
         <activity
             android:name=".activity.DetailMovieActivity"
-            android:theme="@style/AppThemeMovieDetail" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activity.MainUIActivity"
             android:label="@string/title_activity_main_ui"

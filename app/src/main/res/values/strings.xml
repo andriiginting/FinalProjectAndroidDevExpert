@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Catalogue Movie</string>
-    <string name="cari_film">Cari Film Kamu Disini</string>
+    <string name="cari_film">Search your Movie Here</string>
     <string name="MOVIE_API_KEY">f38bc9d1907b81b6b4f890fc62c73a61</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -12,4 +12,19 @@
 
     <string name="action_settings">Settings</string>
     <string name="search_movie">Search Movie</string>
+    <string name="up_coming">Up Coming</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="settings">Settings</string>
+    <string name="communicate">Communicate</string>
+    <string name="first_project">First Project</string>
+    <string name="detail">Detail</string>
+    <string name="share">Share</string>
+    <string name="favorite_movie">Favorite Movie</string>
+    <string name="ini_judul_hint">ini judul</string>
+    <string name="ini_subtittle_hint">ini subtittle</string>
+    <string name="ini_deskripsi_hint">ini deskripsi</string>
+    <string name="search_btn">Search</string>
+    <string name="ini_tanggal_rilis_hint">Ini Tanggal Rilis</string>
+    <string name="owner">Andri Suranta Ginting</string>
+    <string name="email_owner">andris.ginting@gmail.com</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,14 +23,22 @@ public class DetailMovieActivity extends AppCompatActivity implements LoaderMana
 
     double voteRating = 0;
     String url_image = "http://image.tmdb.org/t/p/w342/";
+
+    Toolbar toolbarDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getLoaderManager().initLoader(0,null,DetailMovieActivity.this);
 
+        toolbarDetail = findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbarDetail);
+        toolbarDetail.setTitle(DetailMovieActivity.class.getSimpleName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         judul = findViewById(R.id.title_movie_detail);
         tanggalRilis = findViewById(R.id.date_release_movie_Detail);
@@ -76,5 +85,10 @@ public class DetailMovieActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onLoaderReset(Loader<Object> loader) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

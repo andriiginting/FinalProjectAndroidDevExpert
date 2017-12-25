@@ -81,6 +81,10 @@ public class MainUIActivity extends AppCompatActivity
         } else if (id == R.id.nav_first_project) {
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
+        }else if (id == R.id.nav_manage){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
