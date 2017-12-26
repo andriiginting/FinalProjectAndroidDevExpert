@@ -17,21 +17,15 @@ import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL
 
 public class DetailMovieActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
 
-    TextView judul,tanggalRilis, deskripsi,rating;
+    TextView judul,tanggalRilis, deskripsi;
     ImageView backdrop;
     ImageView back;
-
-    double voteRating = 0;
-    String url_image = "http://image.tmdb.org/t/p/w342/";
 
     Toolbar toolbarDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         getLoaderManager().initLoader(0,null,DetailMovieActivity.this);
 
         toolbarDetail = findViewById(R.id.toolbar_detail);
@@ -60,7 +54,6 @@ public class DetailMovieActivity extends AppCompatActivity implements LoaderMana
         judul.setText(judulFilm);
         tanggalRilis.setText(tanggalFilm);
         deskripsi.setText(deskripsiFilm);
-//        rating.setText(String.valueOf(ratingFilm));
     }
 
     @Override
