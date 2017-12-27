@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.MoviePagerAdapter;
+import com.example.andriginting.myapplication.fragment.FavoriteFragment;
 import com.example.andriginting.myapplication.fragment.NowPlayingFragment;
 import com.example.andriginting.myapplication.fragment.UpComingFragment;
 
@@ -85,6 +86,8 @@ public class MainUIActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
             startActivity(intent);
+        }else if(id == R.id.nav_favorit){
+            viewPager.setCurrentItem(2);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -95,6 +98,7 @@ public class MainUIActivity extends AppCompatActivity
         MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new UpComingFragment());
         adapter.addFrag(new NowPlayingFragment());
+        adapter.addFrag(new FavoriteFragment());
         viewPager.setAdapter(adapter);
 
     }

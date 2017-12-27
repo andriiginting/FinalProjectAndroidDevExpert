@@ -1,5 +1,8 @@
 package com.example.andriginting.myapplication.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
@@ -13,7 +16,29 @@ import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL
  * Created by Andri Ginting on 12/16/2017.
  */
 
-public class Movie {
+public class Movie implements Parcelable{
+    public Movie() {
+    }
+
+    protected Movie(Parcel in){
+        id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie[] newArray(int i) {
+            return new Movie[i];
+        }
+    };
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -153,5 +178,75 @@ public class Movie {
 
     public Double getVoteAverage() {
         return voteAverage;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(posterPath);
+        parcel.writeString(overview);
+        parcel.writeString(releaseDate);
     }
 }

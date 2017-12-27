@@ -20,4 +20,5 @@
     <string name="detail">Detail</string>
     <string name="share">Bagikan</string>
     <string name="favorite_movie">Film Kesukaan</string>
+    <string name="btn_favorite">Jadikan Kesukaan</string>
 </resources>

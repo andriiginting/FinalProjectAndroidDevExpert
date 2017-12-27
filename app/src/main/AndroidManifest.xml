@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission android:name="com.example.andriginting.myapplication.READ_DATABASE"
+        android:protectionLevel="normal"/>
+    <permission android:name="com.example.andriginting.myapplication.WRITE_DATABASE"
+        android:protectionLevel="normal"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,6 +34,14 @@
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+
+        <provider
+            android:authorities="movie.basisdata"
+            android:name=".ContentProvider.MovieProvider"
+            android:exported="true"
+            android:readPermission="com.example.andriginting.myapplication.READ_DATABASE"
+            android:writePermission="com.example.andriginting.myapplication.WRITE_DATABASE"
+            />
     </application>
 
 </manifest>
