@@ -27,7 +27,8 @@
     <string name="ini_tanggal_rilis_hint">Ini Tanggal Rilis</string>
     <string name="owner">Andri Suranta Ginting</string>
     <string name="email_owner">andris.ginting@gmail.com</string>
-    <string name="btn_favorite">Set As Favorite</string>
-    <string name="btn_non_favorite">Set As Un-Favorite</string>
+    <string name="btn_favorite">Mark As Favorite</string>
+    <string name="btn_non_favorite">Un Mark As Favorite</string>
+    <string name="movie_add_snackbar">Movie Added</string>
     <string name="movie_delete_snackbar">Movie Deleted</string>
 </resources>

@@ -16,29 +16,19 @@ import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL
  * Created by Andri Ginting on 12/16/2017.
  */
 
-public class Movie implements Parcelable{
+public class Movie implements Parcelable {
     public Movie() {
     }
 
-    protected Movie(Parcel in){
-        id = in.readInt();
-        title = in.readString();
-        posterPath = in.readString();
-        overview = in.readString();
-        releaseDate = in.readString();
+    private int movie_id;
+
+    public int getMovie_id() {
+        return movie_id;
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel parcel) {
-            return new Movie(parcel);
-        }
-
-        @Override
-        public Movie[] newArray(int i) {
-            return new Movie[i];
-        }
-    };
+    public void setMovie_id(int movie_id) {
+        this.movie_id = movie_id;
+    }
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -104,21 +94,23 @@ public class Movie implements Parcelable{
     public Movie(JSONObject object) {
         try {
             int id = object.getInt("id");
+            int movie_id = object.getInt("id");
             String title = object.getString("title");
             String description = object.getString("overview");
             double movieRatet = object.getDouble("vote_average");
             String releaseDate = object.getString("release_date");
             String posterUrl = object.getString("poster_path");
             posterUrl = IMAGE_URL + "w185" + posterUrl;
-            description = description.length() <= 5  ? description.substring(0,5)+"...":description;
+            description = description.length() <= 5 ? description.substring(0, 5) + "..." : description;
 
             this.id = id;
             this.title = title;
+            this.movie_id = movie_id;
             this.overview = description;
             this.releaseDate = releaseDate;
             this.posterPath = posterUrl;
             this.voteAverage = movieRatet;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -126,10 +118,6 @@ public class Movie implements Parcelable{
 
     public String getPosterPath() {
         return posterPath;
-    }
-
-    public boolean isAdult() {
-        return adult;
     }
 
     public String getOverview() {
@@ -152,41 +140,16 @@ public class Movie implements Parcelable{
         return originalTitle;
     }
 
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
 
     public String getTitle() {
         return title;
     }
 
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public Double getVoteAverage() {
-        return voteAverage;
-    }
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
-    public void setAdult(boolean adult) {
-        this.adult = adult;
-    }
 
     public void setOverview(String overview) {
         this.overview = overview;
@@ -204,37 +167,30 @@ public class Movie implements Parcelable{
         this.id = id;
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+
+    protected Movie(Parcel in) {
+        movie_id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        releaseDate = in.readString();
     }
 
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
-    }
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+            return new Movie(parcel);
+        }
 
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
-    }
-
-    public void setVoteAverage(Double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
+        @Override
+        public Movie[] newArray(int i) {
+            return new Movie[i];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -243,7 +199,8 @@ public class Movie implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        //parcel.writeInt(id);
+        parcel.writeInt(movie_id);
         parcel.writeString(title);
         parcel.writeString(posterPath);
         parcel.writeString(overview);

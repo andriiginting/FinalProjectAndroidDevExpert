@@ -2,6 +2,7 @@ package com.example.andriginting.myapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.andriginting.myapplication.activity.DetailMovieActivity;
 import com.example.andriginting.myapplication.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL;
@@ -27,6 +29,11 @@ public class UpComingPlayingAdapter  extends RecyclerView.Adapter<UpComingPlayin
     private List<Movie> movieList;
     private Context context;
     private int konten;
+
+    public void setMovieList(ArrayList<Movie> movies){
+        this.movieList = movies;
+        notifyDataSetChanged();
+    }
 
     public UpComingPlayingAdapter(List<Movie> movieList, int konten, Context context) {
         this.movieList = movieList;
@@ -55,11 +62,24 @@ public class UpComingPlayingAdapter  extends RecyclerView.Adapter<UpComingPlayin
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Movie movieItems = new Movie();
+//
+                movieItems.setMovie_id(movieList.get(position).getId());
+                movieItems.setMovie_id(movieList.get(position).getMovie_id());
+                movieItems.setTitle(movieList.get(position).getTitle());
+                movieItems.setPosterPath(movieList.get(position).getPosterPath());
+                movieItems.setOverview(movieList.get(position).getOverview());
+                movieItems.setReleaseDate(movieList.get(position).getReleaseDate());
+
                 Intent intent = new Intent(context, DetailMovieActivity.class);
+                intent.putExtra("id",movieList.get(position).getId());
                 intent.putExtra("judul",movieList.get(position).getOriginalTitle());
                 intent.putExtra("keterangan",movieList.get(position).getOverview());
                 intent.putExtra("gambar",movieList.get(position).getPosterPath());
                 intent.putExtra("date",movieList.get(position).getReleaseDate());
+
+                intent.putExtra( DetailMovieActivity.EXTRA_MOVIE,(Parcelable)movieItems);
+
                 view.getContext().startActivity(intent);
             }
         });

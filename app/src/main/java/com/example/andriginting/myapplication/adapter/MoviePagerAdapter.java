@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.andriginting.myapplication.fragment.FavoriteFragment;
 import com.example.andriginting.myapplication.fragment.NowPlayingFragment;
 import com.example.andriginting.myapplication.fragment.UpComingFragment;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 
 public class MoviePagerAdapter extends FragmentPagerAdapter {
-    String judul[] = {"Up Coming", "Now Playing"};
+    String judul[] = {"Up Coming", "Now Playing","Your Favorite"};
     private final List<Fragment> fragmentList = new ArrayList<>();
 
     public MoviePagerAdapter(FragmentManager fm) {
@@ -32,6 +33,9 @@ public class MoviePagerAdapter extends FragmentPagerAdapter {
                 return fragment;
             case 1:
                 fragment = new NowPlayingFragment();
+                return fragment;
+            case 2:
+                fragment = new FavoriteFragment();
                 return fragment;
         }
 

@@ -57,7 +57,6 @@ public class MainUIActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -88,6 +87,11 @@ public class MainUIActivity extends AppCompatActivity
             startActivity(intent);
         }else if(id == R.id.nav_favorit){
             viewPager.setCurrentItem(2);
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.frame_container,new FavoriteFragment())
+//                    .addToBackStack(null)
+//                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -62,7 +62,7 @@ public class NowPlayingFragment extends Fragment {
         recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new UpComingPlayingAdapter(movieList,R.layout.konten_coming_playing_movie,getContext());
         recyclerViewNowPlaying.setAdapter(adapter);
-        loadNowPlayingMoviw();
+        loadNowPlayingMovie();
 
         if (cariFilm != null){
             loadSearchNowPlaying();
@@ -73,10 +73,10 @@ public class NowPlayingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadNowPlayingMoviw();
+        loadNowPlayingMovie();
     }
 
-    private void loadNowPlayingMoviw(){
+    private void loadNowPlayingMovie(){
         recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
 
         APIInterface apiInterface = APIClient.getRetrofitClient().create(APIInterface.class);

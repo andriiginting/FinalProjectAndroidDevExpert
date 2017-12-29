@@ -5,14 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.andriginting.myapplication.R;
-import com.example.andriginting.myapplication.adapter.FavoriteMovieAdapter;
+import com.example.andriginting.myapplication.adapter.UpComingPlayingAdapter;
 import com.example.andriginting.myapplication.database.MovieHelper;
 import com.example.andriginting.myapplication.model.Movie;
 
@@ -26,9 +26,10 @@ import butterknife.ButterKnife;
  */
 public class FavoriteFragment extends Fragment {
 
-    FavoriteMovieAdapter adapter;
+    UpComingPlayingAdapter adapter;
     MovieHelper movieHelper;
     ArrayList<Movie> moviesData;
+
     public FavoriteFragment() {
         // Required empty public constructor
     }
@@ -43,16 +44,17 @@ public class FavoriteFragment extends Fragment {
         View v =inflater.inflate(R.layout.fragment_favorite, container, false);
         ButterKnife.bind(this,v);
 
-        recyclerMovieFav.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerMovieFav.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerMovieFav.setHasFixedSize(true);
 
-        adapter = new FavoriteMovieAdapter(getContext());
+        adapter = new UpComingPlayingAdapter(moviesData,R.layout.konten_coming_playing_movie,getContext());
         movieHelper = new MovieHelper(getContext());
         movieHelper.open();
 
         moviesData = new ArrayList<>();
         adapter.setMovieList(moviesData);
         recyclerMovieFav.setAdapter(adapter);
+
         return v;
     }
 

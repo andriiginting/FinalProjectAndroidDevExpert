@@ -27,10 +27,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
     public FavoriteMovieAdapter(Context context) {
         this.context = context;
     }
-    public void setMovieList(ArrayList<Movie> movies){
-        this.movieArrayList = movies;
-        notifyDataSetChanged();
-    }
+
 
     @Override
     public FavoriteMovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +45,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
 
     @Override
     public int getItemCount() {
-        return 0;
+        return movieArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

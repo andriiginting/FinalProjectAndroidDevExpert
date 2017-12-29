@@ -18,7 +18,7 @@ import com.example.andriginting.myapplication.database.DatabaseHelper;
  */
 
 public class MovieProvider extends ContentProvider {
-    private static final String AUTHORITY = "movie.basisdata";
+    private static final String AUTHORITY = "com.example.andriginting.myapplication";
     private static final String BASE_PATH = "favorites";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
@@ -46,7 +46,13 @@ public class MovieProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
         Cursor cursor = null;
         if (uriMatcher.match(uri) == FAVORITES) {
-            cursor = sqLiteDatabase.query(DatabaseHelper.TABLE_NAME, null, null, null, null, null, DatabaseHelper.FIELD_ID + " DESC");
+            cursor = sqLiteDatabase.query(DatabaseHelper.TABLE_NAME
+                    , null
+                    , null
+                    , null
+                    , null
+                    , null
+                    , DatabaseHelper.FIELD_ID + " DESC");
         }
 
         return cursor;
@@ -61,7 +67,9 @@ public class MovieProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        long id = sqLiteDatabase.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
+        long id = sqLiteDatabase.insert(DatabaseHelper.TABLE_NAME
+                , null
+                , contentValues);
 
         if (id > 0) {
             Uri mUri = ContentUris.withAppendedId(CONTENT_URI, id);
