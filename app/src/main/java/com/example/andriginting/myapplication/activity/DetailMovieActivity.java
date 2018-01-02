@@ -1,6 +1,5 @@
 package com.example.andriginting.myapplication.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -15,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.database.MovieHelper;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
+import com.example.andriginting.myapplication.network.DetailLoader;
 import com.example.andriginting.myapplication.util.AppPreference;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL;
 
 public class DetailMovieActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
+        LoaderManager.LoaderCallbacks<ArrayList<MovieItems>> {
 
     TextView judul, tanggalRilis, deskripsi;
     ImageView backdrop;
@@ -32,9 +32,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
 
     Toolbar toolbarDetail;
 
-    private Movie movieItem;
+    private  MovieItems movieItems;
     private int movie_id;
-    private ArrayList<Movie> movieArrayList;
+    private ArrayList<MovieItems> movieArrayList;
     private MovieHelper movieHelper;
     private boolean isFavorite;
     AppPreference appPreference;
@@ -45,14 +45,11 @@ public class DetailMovieActivity extends AppCompatActivity implements
 
 
     String judulFilm, tanggalFilm, deskripsiFilm, gambarFilm;
-    int getMovieID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
-        getSupportLoaderManager().initLoader(0, null, DetailMovieActivity.this);
-
 
         movieHelper = new MovieHelper(this);
         appPreference = new AppPreference(this);
@@ -62,7 +59,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
         setSupportActionBar(toolbarDetail);
         toolbarDetail.setTitle(DetailMovieActivity.class.getSimpleName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        movieItems = getIntent().getParcelableExtra(EXTRA_MOVIE);
+        movie_id =getIntent().getIntExtra(EXTRA_ID,0);
 
         judul = findViewById(R.id.title_movie_detail);
         tanggalRilis = findViewById(R.id.date_release_movie_Detail);
@@ -70,32 +69,20 @@ public class DetailMovieActivity extends AppCompatActivity implements
         backdrop = findViewById(R.id.image_back_drop_detail);
         btnMovieFav = findViewById(R.id.btn_movie_favorite);
 
-        Intent getMovieDetail = getIntent();
-        judulFilm = getMovieDetail.getStringExtra("judul");
-        tanggalFilm = getMovieDetail.getStringExtra("date");
-        deskripsiFilm = getMovieDetail.getStringExtra("keterangan");
-        gambarFilm = getMovieDetail.getStringExtra("gambar");
-        getMovieID = getMovieDetail.getIntExtra("id",0);
 
-
-        movieItem = getIntent().getParcelableExtra(EXTRA_MOVIE);
-        getSupportActionBar().setTitle(judulFilm);
-
-        Picasso.with(getApplicationContext())
-                .load(IMAGE_URL + gambarFilm)
-                .fit()
-                .into(backdrop);
-
-
-        if (movieItem != null) {
+        if (movieItems != null) {
             setFavoriteMovie();
             if (savedInstanceState != null) {
+
                 getSupportLoaderManager().initLoader(0, null, this);
             } else {
                 getSupportLoaderManager().initLoader(0, null, this);
             }
         }
 
+        if (movie_id!=0){
+            getSupportLoaderManager().initLoader(0,null,this);
+        }
         btnMovieFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,10 +98,6 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 }
             }
         });
-
-        judul.setText(judulFilm);
-        tanggalRilis.setText(tanggalFilm);
-        deskripsi.setText(deskripsiFilm);
     }
 
     @Override
@@ -127,8 +110,8 @@ public class DetailMovieActivity extends AppCompatActivity implements
     }
 
     void setFavoriteMovie() {
-        int movied_id = movieHelper.getData(getMovieID);
-        if (movied_id == movieItem.getMovie_id()) {
+        int movied_id = movieHelper.getData(movieItems.getMovie_id());
+        if (movied_id == movieItems.getMovie_id()) {
             btnMovieFav.setText(getResources().getString(R.string.btn_non_favorite));
         } else {
             btnMovieFav.setText(getResources().getString(R.string.btn_favorite));
@@ -136,19 +119,19 @@ public class DetailMovieActivity extends AppCompatActivity implements
     }
 
     public boolean isFavoriteMovieSucces() {
-        int movie_db = movieHelper.getData(getMovieID);
-        if (movie_db == movieItem.getMovie_id()) {
-            movieHelper.delete(getMovieID);
+        int movie_db = movieHelper.getData(movieItems.getMovie_id());
+        if (movie_db == movieItems.getMovie_id()) {
+            movieHelper.delete(movieItems.getMovie_id());
             isFavorite = true;
             return true;
         } else {
-            Movie movieItem = new Movie();
-            movieItem.setId(getMovieID);
-            movieItem.setTitle(judulFilm);
-            movieItem.setPosterPath(gambarFilm);
-            movieItem.setOverview(deskripsiFilm);
-            movieItem.setReleaseDate(tanggalFilm);
-            movieHelper.insert(movieItem);
+            MovieItems movieItem = new MovieItems();
+            movieItem.setId(movieItems.getMovie_id());
+            movieItem.setTitle(movieItems.getTitle());
+            movieItem.setPoster_path(movieItems.getPoster_path());
+            movieItem.setOverview(movieItems.getOverview());
+            movieItem.setRelease_date(movieItems.getRelease_date());
+            movieHelper.insert(movieItems);
             isFavorite = false;
             return false;
         }
@@ -163,17 +146,31 @@ public class DetailMovieActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
-        return null;
+    public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
+        if (movieItems!=null) {
+
+            return new DetailLoader(getApplicationContext(),movieItems.getMovie_id());
+        }else{
+            return new DetailLoader(this,movie_id);
+        }
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
-
+    public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> data) {
+        gambarFilm = data.get(0).getPoster_path();
+        judulFilm = data.get(0).getTitle();
+        deskripsiFilm = data.get(0).getOverview();
+        tanggalFilm = data.get(0).getRelease_date();
+        Picasso.with(this)
+                .load(IMAGE_URL+gambarFilm)
+                .into(backdrop);
+        judul.setText(judulFilm);
+        deskripsi.setText(deskripsiFilm);
+        tanggalRilis.setText(tanggalFilm);
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
+    public void onLoaderReset(Loader<ArrayList<MovieItems>> loader) {
 
     }
 }

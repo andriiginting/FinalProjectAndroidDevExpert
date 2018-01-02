@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.UpComingPlayingAdapter;
 import com.example.andriginting.myapplication.database.MovieHelper;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class FavoriteFragment extends Fragment {
 
     UpComingPlayingAdapter adapter;
     MovieHelper movieHelper;
-    ArrayList<Movie> moviesData;
+    ArrayList<MovieItems> moviesData;
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -47,12 +47,12 @@ public class FavoriteFragment extends Fragment {
         recyclerMovieFav.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerMovieFav.setHasFixedSize(true);
 
-        adapter = new UpComingPlayingAdapter(moviesData,R.layout.konten_coming_playing_movie,getContext());
+        adapter = new UpComingPlayingAdapter(getContext());
         movieHelper = new MovieHelper(getContext());
         movieHelper.open();
 
         moviesData = new ArrayList<>();
-        adapter.setMovieList(moviesData);
+        adapter.setMovieItemsList(moviesData);
         recyclerMovieFav.setAdapter(adapter);
 
         return v;
@@ -72,10 +72,10 @@ public class FavoriteFragment extends Fragment {
         new LoadFavAsync().execute();
     }
 
-    private class LoadFavAsync extends AsyncTask<Void,Void,ArrayList<Movie>>{
+    private class LoadFavAsync extends AsyncTask<Void,Void,ArrayList<MovieItems>>{
 
         @Override
-        protected ArrayList<Movie> doInBackground(Void... voids) {
+        protected ArrayList<MovieItems> doInBackground(Void... voids) {
             return movieHelper.getAllData();
         }
 
@@ -88,11 +88,11 @@ public class FavoriteFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
+        protected void onPostExecute(ArrayList<MovieItems> movies) {
             super.onPostExecute(movies);
 
             moviesData.addAll(movies);
-            adapter.setMovieList(moviesData);
+            adapter.setMovieItemsList(moviesData);
 
             if (moviesData.size() == 0 ){
                 Snackbar.make(recyclerMovieFav,"data empty",Snackbar.LENGTH_SHORT).show();

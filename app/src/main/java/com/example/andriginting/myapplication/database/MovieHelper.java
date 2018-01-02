@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 
 import java.util.ArrayList;
 
@@ -50,7 +50,7 @@ public class MovieHelper  {
             result=cursor.getInt(1);
 
             Log.d("TAG", "getData: if "+result);
-            for (;!cursor.isAfterLast(); cursor.moveToNext()){
+            for (; !cursor.isAfterLast(); cursor.moveToNext()){
                 result = cursor.getInt(1);
                 Log.d("TAG", "getData: for "+result);
             }
@@ -64,21 +64,21 @@ public class MovieHelper  {
                 DatabaseHelper.FIELD_MOVIE_ID + " DESC", null);
     }
 
-    public ArrayList<Movie> getAllData(){
-        ArrayList<Movie> arrayList = new ArrayList<>();
+    public ArrayList<MovieItems> getAllData(){
+        ArrayList<MovieItems> arrayList = new ArrayList<>();
         Cursor cursor = queryAllData();
         cursor.moveToFirst();
-        Movie movie;
+        MovieItems movie;
 
         if (cursor.getCount()>0){
             do{
-                movie = new Movie();
+                movie = new MovieItems();
                 movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_ID)));
                 movie.setMovie_id(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_MOVIE_ID)));
                 movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_TITLE)));
-                movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_POSTER)));
+                movie.setPoster_path(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_POSTER)));
                 movie.setOverview(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_OVERVIEW)));
-                movie.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_RELEASE)));
+                movie.setRelease_date(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FIELD_RELEASE)));
 
                 arrayList.add(movie);
 
@@ -89,13 +89,13 @@ public class MovieHelper  {
         return  arrayList;
     }
 
-    public long insert(Movie items){
+    public long insert(MovieItems items){
         ContentValues initialValue = new ContentValues();
         initialValue.put(DatabaseHelper.FIELD_MOVIE_ID, items.getMovie_id());
         initialValue.put(DatabaseHelper.FIELD_TITLE, items.getTitle());
-        initialValue.put(DatabaseHelper.FIELD_POSTER, items.getPosterPath());
+        initialValue.put(DatabaseHelper.FIELD_POSTER, items.getPoster_path());
         initialValue.put(DatabaseHelper.FIELD_OVERVIEW, items.getOverview());
-        initialValue.put(DatabaseHelper.FIELD_RELEASE, items.getReleaseDate());
+        initialValue.put(DatabaseHelper.FIELD_RELEASE, items.getRelease_date());
         Log.d("TAG", "insert: success");
         return sqLiteDatabase.insert(DATABASE_TABLE
                 , null

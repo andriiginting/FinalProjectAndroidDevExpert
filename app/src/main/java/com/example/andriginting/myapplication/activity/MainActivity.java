@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.andriginting.myapplication.BuildConfig;
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.MovieListAdapter;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 import com.example.andriginting.myapplication.model.MovieResponse;
 import com.example.andriginting.myapplication.network.APIClient;
 import com.example.andriginting.myapplication.network.APIInterface;
@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Movie> movieList = new ArrayList<>();
+    List<MovieItems> movieList = new ArrayList<>();
     RecyclerView recyclerView;
     EditText edtSearchMovie;
     Button btnSearchMovie;

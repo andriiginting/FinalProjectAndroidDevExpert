@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.activity.DetailMovieActivity;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,11 +25,11 @@ import static com.example.andriginting.myapplication.network.APIClient.IMAGE_URL
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder>{
 
-    private List<Movie> movieList;
+    private List<MovieItems> movieList;
     private Context context;
     private int list_kontent;
 
-    public MovieListAdapter(List<Movie> movieList, int list_kontent, Context context) {
+    public MovieListAdapter(List<MovieItems> movieList, int list_kontent, Context context) {
         this.movieList = movieList;
         this.context = context;
         this.list_kontent = list_kontent;
@@ -48,10 +48,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public void onBindViewHolder(MovieListAdapter.ViewHolder holder, final int position) {
         holder.judul.setText(movieList.get(position).getTitle());
         holder.keterangan.setText(movieList.get(position).getOverview());
-        holder.tanggalRilis.setText(movieList.get(position).getReleaseDate());
+        holder.tanggalRilis.setText(movieList.get(position).getRelease_date());
 
         Picasso.with(context)
-                .load(IMAGE_URL+movieList.get(position).getPosterPath())
+                .load(IMAGE_URL+movieList.get(position).getPoster_path())
                 .resize(300,400)
                 .into(holder.imageMovie);
 
@@ -60,10 +60,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailMovieActivity.class);
-                intent.putExtra("judul",movieList.get(position).getOriginalTitle());
+                intent.putExtra("judul",movieList.get(position).getTitle());
                 intent.putExtra("keterangan",movieList.get(position).getOverview());
-                intent.putExtra("gambar",movieList.get(position).getPosterPath());
-                intent.putExtra("date",movieList.get(position).getReleaseDate());
+                intent.putExtra("gambar",movieList.get(position).getPoster_path());
+                intent.putExtra("date",movieList.get(position).getRelease_date());
 
                 view.getContext().startActivity(intent);
             }

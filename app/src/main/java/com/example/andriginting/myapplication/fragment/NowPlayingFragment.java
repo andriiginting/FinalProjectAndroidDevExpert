@@ -4,6 +4,8 @@ package com.example.andriginting.myapplication.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +22,12 @@ import android.widget.Toast;
 import com.example.andriginting.myapplication.BuildConfig;
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.UpComingPlayingAdapter;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 import com.example.andriginting.myapplication.model.MovieResponse;
 import com.example.andriginting.myapplication.network.APIClient;
 import com.example.andriginting.myapplication.network.APIInterface;
+import com.example.andriginting.myapplication.network.NowPlayingLoader;
+import com.example.andriginting.myapplication.network.SearchLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +41,12 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NowPlayingFragment extends Fragment {
+public class NowPlayingFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<ArrayList<MovieItems>> {
 
     @BindView(R.id.recycler_now_playing_movie)
     RecyclerView recyclerViewNowPlaying;
-    List<Movie> movieList = new ArrayList<>();
+    List<MovieItems> movieList = new ArrayList<>();
     UpComingPlayingAdapter adapter;
 
     String cariFilm = null;
@@ -55,28 +60,29 @@ public class NowPlayingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_now_playing,container,false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragment_now_playing, container, false);
+        ButterKnife.bind(this, v);
 
         setHasOptionsMenu(true);
-        recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UpComingPlayingAdapter(movieList,R.layout.konten_coming_playing_movie,getContext());
-        recyclerViewNowPlaying.setAdapter(adapter);
-        loadNowPlayingMovie();
 
-        if (cariFilm != null){
-            loadSearchNowPlaying();
+        adapter = new UpComingPlayingAdapter(getContext());
+        if (savedInstanceState != null) {
+            getActivity().getSupportLoaderManager().initLoader(1, null, this);
         }
+
+//        if (cariFilm != null){
+//            loadSearchNowPlaying();
+//        }
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadNowPlayingMovie();
+        getActivity().getSupportLoaderManager().initLoader(1, null, this);
     }
 
-    private void loadNowPlayingMovie(){
+    private void loadNowPlayingMovie() {
         recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
 
         APIInterface apiInterface = APIClient.getRetrofitClient().create(APIInterface.class);
@@ -84,8 +90,8 @@ public class NowPlayingFragment extends Fragment {
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                movieList =response.body().getResults();
-                recyclerViewNowPlaying.setAdapter(new UpComingPlayingAdapter(movieList,R.layout.konten_coming_playing_movie,getContext()));
+                movieList = response.body().getResults();
+                //recyclerViewNowPlaying.setAdapter(new UpComingPlayingAdapter(movieList,R.layout.konten_coming_playing_movie,getContext()));
             }
 
             @Override
@@ -106,7 +112,26 @@ public class NowPlayingFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 cariFilm = s;
-                loadSearchNowPlaying();
+                getLoaderManager().initLoader(1, null, new LoaderManager.LoaderCallbacks<ArrayList<MovieItems>>() {
+                    @Override
+                    public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
+                        return new SearchLoader(getContext(), cariFilm);
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> data) {
+                        if (data != null) {
+                            adapter.setMovieItemsList(data);
+                            recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerViewNowPlaying.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<ArrayList<MovieItems>> loader) {
+                        adapter.setMovieItemsList(null);
+                    }
+                });
                 return true;
             }
 
@@ -118,7 +143,7 @@ public class NowPlayingFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void loadSearchNowPlaying(){
+    private void loadSearchNowPlaying() {
         recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
 
         final APIInterface apiInterface = APIClient
@@ -131,11 +156,10 @@ public class NowPlayingFragment extends Fragment {
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 movieList = response.body().getResults();
                 if (movieList.size() == 0) {
-
                     Toast.makeText(getContext(), "maaf data yang anda cari tidak ditemukan", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    recyclerViewNowPlaying.setAdapter(new UpComingPlayingAdapter(movieList, R.layout.list_kontent, getContext()));
+                    recyclerViewNowPlaying.setAdapter(new UpComingPlayingAdapter(getContext()));
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -146,5 +170,25 @@ public class NowPlayingFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
+        return new NowPlayingLoader(getContext());
     }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> data) {
+        if (data.size() != 0) {
+            recyclerViewNowPlaying.setVisibility(View.VISIBLE);
+            adapter.setMovieItemsList(data);
+            recyclerViewNowPlaying.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerViewNowPlaying.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<MovieItems>> loader) {
+
+    }
+}
 

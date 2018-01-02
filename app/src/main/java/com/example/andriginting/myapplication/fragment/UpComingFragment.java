@@ -4,6 +4,8 @@ package com.example.andriginting.myapplication.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +22,12 @@ import android.widget.Toast;
 import com.example.andriginting.myapplication.BuildConfig;
 import com.example.andriginting.myapplication.R;
 import com.example.andriginting.myapplication.adapter.UpComingPlayingAdapter;
-import com.example.andriginting.myapplication.model.Movie;
+import com.example.andriginting.myapplication.model.MovieItems;
 import com.example.andriginting.myapplication.model.MovieResponse;
 import com.example.andriginting.myapplication.network.APIClient;
 import com.example.andriginting.myapplication.network.APIInterface;
+import com.example.andriginting.myapplication.network.SearchLoader;
+import com.example.andriginting.myapplication.network.UpcomingLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +38,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpComingFragment extends Fragment {
+public class UpComingFragment extends Fragment implements
+        LoaderManager.LoaderCallbacks<ArrayList<MovieItems>> {
 
     @BindView(R.id.recycler_up_coming_movie)
     RecyclerView recyclerViewUpComing;
 
-    List<Movie> movieList = new ArrayList<>();
+    List<MovieItems> movieList = new ArrayList<>();
     UpComingPlayingAdapter adapter;
 
-    String cariFilm=null;
+    String cariFilm = null;
 
     public UpComingFragment() {
         // Required empty public constructor
@@ -56,19 +61,20 @@ public class UpComingFragment extends Fragment {
         ButterKnife.bind(this, v);
 
         setHasOptionsMenu(true);
-        recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UpComingPlayingAdapter(movieList, R.layout.konten_coming_playing_movie, getContext());
+
+        adapter = new UpComingPlayingAdapter(getContext());
         recyclerViewUpComing.setAdapter(adapter);
 
-        if (cariFilm != null){
-            loadSearchMovie();
+        if(savedInstanceState==null){
+            getActivity().getSupportLoaderManager().initLoader(0, null, this);
         }
+
         return v;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main_ui,menu);
+        inflater.inflate(R.menu.main_ui, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -77,7 +83,26 @@ public class UpComingFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 cariFilm = s;
-                loadSearchMovie();
+                getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<ArrayList<MovieItems>>() {
+                    @Override
+                    public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
+                        return new SearchLoader(getContext(), cariFilm);
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> data) {
+                        if (data != null) {
+                            adapter.setMovieItemsList(data);
+                            recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerViewUpComing.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<ArrayList<MovieItems>> loader) {
+                        adapter.setMovieItemsList(null);
+                    }
+                });
                 return true;
             }
 
@@ -92,7 +117,7 @@ public class UpComingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-            loadUpComingMovies();
+        getActivity().getSupportLoaderManager().initLoader(0, null, this);
     }
 
     private void loadUpComingMovies() {
@@ -105,7 +130,7 @@ public class UpComingFragment extends Fragment {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 movieList = response.body().getResults();
-                recyclerViewUpComing.setAdapter(new UpComingPlayingAdapter(movieList, R.layout.konten_coming_playing_movie, getContext()));
+                recyclerViewUpComing.setAdapter(new UpComingPlayingAdapter(getContext()));
             }
 
             @Override
@@ -115,7 +140,7 @@ public class UpComingFragment extends Fragment {
         });
     }
 
-    private void loadSearchMovie(){
+    private void loadSearchMovie() {
         recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(getContext()));
 
         final APIInterface apiInterface = APIClient
@@ -132,7 +157,7 @@ public class UpComingFragment extends Fragment {
                     Toast.makeText(getContext(), "maaf data yang anda cari tidak ditemukan", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    recyclerViewUpComing.setAdapter(new UpComingPlayingAdapter(movieList, R.layout.list_kontent, getContext()));
+                    recyclerViewUpComing.setAdapter(new UpComingPlayingAdapter(getContext()));
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -144,4 +169,24 @@ public class UpComingFragment extends Fragment {
         });
     }
 
+    @Override
+    public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
+        return new UpcomingLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> data) {
+        if (data.size() != 0) {
+            recyclerViewUpComing.setVisibility(View.VISIBLE);
+            adapter.setMovieItemsList(data);
+            recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerViewUpComing.setAdapter(adapter);
+        }
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<MovieItems>> loader) {
+//        adapter.setMovieItemsList(null);
+    }
 }

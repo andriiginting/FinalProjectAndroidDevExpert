@@ -9,6 +9,7 @@ import com.example.andriginting.myapplication.model.MovieItems;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -16,24 +17,23 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by Andri Ginting on 12/28/2017.
+ * Created by Andri Ginting on 1/2/2018.
  */
 
-public class DetailLoader extends AsyncTaskLoader<ArrayList<MovieItems>>{
+public class UpcomingLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
+
     private ArrayList<MovieItems> mDataMovie;
     private boolean hasResult = false;
-    private int ID_MOVIE;
 
-    public DetailLoader(Context context, int ID_MOVIE) {
+    public UpcomingLoader(Context context) {
         super(context);
-        this.ID_MOVIE = ID_MOVIE;
         onContentChanged();
-        Log.d("INIT", "SearchMovieLoader: 1");
+        Log.d("INIT", "UpcomingMovieLoader: 1");
     }
 
     @Override
     protected void onStartLoading() {
-        Log.d("Content Changed", "onStartLoading: 1");
+        Log.d("ChangedUpcooming", "onStartLoading: 1");
         if (takeContentChanged()){
             forceLoad();
         } else if (hasResult){
@@ -59,15 +59,14 @@ public class DetailLoader extends AsyncTaskLoader<ArrayList<MovieItems>>{
     }
 
     private void onReleaseResources(ArrayList<MovieItems> mDataMovie) {
-
     }
 
     @Override
     public ArrayList<MovieItems> loadInBackground() {
-        Log.d("LoaderDetail", "loadInBackground: 1");
+        Log.d("LoaderUpcoming", "loadInBackground: 1");
         final ArrayList<MovieItems> movieItemses = new ArrayList<>();
-        String url = "https://api.themoviedb.org/3/movie/"+ID_MOVIE+"?api_key="+ BuildConfig.API_KEY+"&language=en-US";
         SyncHttpClient client = new SyncHttpClient();
+        String url = "https://api.themoviedb.org/3/movie/upcoming?api_key="+ BuildConfig.API_KEY+"&language=en-US";
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -78,24 +77,26 @@ public class DetailLoader extends AsyncTaskLoader<ArrayList<MovieItems>>{
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String result = new String(responseBody);
-                Log.d("TAGLoaderDetail", "onSuccess: "+result);
+                Log.d("TAG", "onSuccess Upcoming: "+result);
                 try {
                     JSONObject responseObject = new JSONObject(result);
-                    MovieItems movieItems = new MovieItems(responseObject);
-                    movieItems.setPoster_path(responseObject.getString("poster_path"));
-                    movieItems.setTitle(responseObject.getString("title"));
-                    movieItems.setOverview(responseObject.getString("overview"));
-                    movieItems.setRelease_date(responseObject.getString("release_date"));
-                    movieItemses.add(movieItems);
+                    JSONArray list = responseObject.getJSONArray("results");
+
+                    for (int i = 0; i < list.length(); i++) {
+                        JSONObject movie = list.getJSONObject(i);
+                        MovieItems movieItems = new MovieItems(movie);
+                        movieItemses.add(movieItems);
+                        Log.d("TAG", "onSuccess Upcoming: 1");
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
-                    Log.d("TAGLoaderDetail", "REQUEST FAIL: 1 "+e.getMessage());
+                    Log.d("TAG", "FAIL Upcoming: 1");
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("TAGLoaderDetail", "onFailure: FAIL");
+                Log.d("TAG", "FAILURE Upcoming: 1");
             }
         });
         return movieItemses;
