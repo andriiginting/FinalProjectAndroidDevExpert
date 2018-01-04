@@ -142,8 +142,8 @@ public class MainUIActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.nav_setting:
-                Intent intentSetting = new Intent(Intent.ACTION_MAIN);
-                intentSetting.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
+                Intent intentSetting = new Intent(this,SettingActivity.class);
+                //intentSetting.setClassName("com.android.settings", "com.android.settings.LanguageSettings"),Intent.ACTION_MAIN;
                 startActivity(intentSetting);
                 break;
             default:

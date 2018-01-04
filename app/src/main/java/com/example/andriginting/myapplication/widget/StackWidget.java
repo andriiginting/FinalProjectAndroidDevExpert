@@ -12,12 +12,11 @@ import android.widget.Toast;
 import com.example.andriginting.myapplication.R;
 
 /**
- * Created by Andri Ginting on 1/3/2018.
+ * Implementation of App Widget functionality.
  */
+public class StackWidget extends AppWidgetProvider {
 
-public class FavoriteWidget extends AppWidgetProvider {
-
-    public static final String TOAST_ACTION = "andriiginting.TOAS_ACTION";
+    public static final String TOAST_ACTION = "andriiginting.TOAST_ACTION";
     public static final String EXTRA_ITEM = "andriiginting.EXTRA_ITEM";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -28,12 +27,12 @@ public class FavoriteWidget extends AppWidgetProvider {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stack_widget);
         views.setRemoteAdapter(R.id.stack_view, intent);
         views.setEmptyView(R.id.stack_view, R.id.empty_view);
 
-        Intent toastIntent = new Intent(context, FavoriteWidget.class);
-        toastIntent.setAction(FavoriteWidget.TOAST_ACTION);
+        Intent toastIntent = new Intent(context, StackWidget.class);
+        toastIntent.setAction(StackWidget.TOAST_ACTION);
         toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
@@ -73,3 +72,4 @@ public class FavoriteWidget extends AppWidgetProvider {
         }
     }
 }
+

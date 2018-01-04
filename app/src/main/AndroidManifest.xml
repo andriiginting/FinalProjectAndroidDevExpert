@@ -6,10 +6,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <permission android:name="com.example.andriginting.myapplication.READ_DATABASE"
-        android:protectionLevel="normal"/>
-    <permission android:name="com.example.andriginting.myapplication.WRITE_DATABASE"
-        android:protectionLevel="normal"/>
+    <permission
+        android:name="com.example.andriginting.myapplication.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.example.andriginting.myapplication.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -18,12 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.DetailMovieActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:parentActivityName=".activity.MainUIActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainUIActivity" />
+        </activity>
         <activity
             android:name=".activity.MainUIActivity"
             android:label="@string/title_activity_main_ui"
@@ -33,17 +38,50 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".activity.SettingActivity">
+
         </activity>
 
         <provider
-            android:authorities="com.example.andriginting.myapplication"
             android:name=".ContentProvider.MovieProvider"
+            android:authorities="com.example.andriginting.myapplication"
             android:exported="true"
             android:readPermission="com.example.andriginting.myapplication.READ_DATABASE"
-            android:writePermission="com.example.andriginting.myapplication.WRITE_DATABASE"
-            />
+            android:writePermission="com.example.andriginting.myapplication.WRITE_DATABASE" />
+
+        <receiver android:name=".widget.StackWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stack_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".util.DailyReminderMovie"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".util.UpComingReminder"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+
     </application>
 
 </manifest>
