@@ -14,7 +14,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_card"
+            android:background="@color/abuGojek"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:tabMode="fixed"
             app:tabGravity="fill"/>

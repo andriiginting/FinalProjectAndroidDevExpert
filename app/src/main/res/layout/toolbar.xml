@@ -8,7 +8,7 @@
         android:id="@+id/toolbar_detail"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/background_card"
+        android:background="@color/abuGojek"
         app:popupTheme="@style/PopupOverlay" />
 
 </android.support.design.widget.AppBarLayout>

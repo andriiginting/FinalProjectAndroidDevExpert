@@ -17,8 +17,13 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/background_card"
-                app:popupTheme="@style/PopupOverlay" />
+                android:background="@color/abuGojek"
+                app:popupTheme="@style/PopupOverlay" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:src="@drawable/gojek"/>
+            </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

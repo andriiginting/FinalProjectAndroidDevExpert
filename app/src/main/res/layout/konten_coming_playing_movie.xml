@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@color/bg_color_button_unguMuda"
+                    android:background="@color/hijauGojek"
                     android:text="@string/detail"
                     android:textColor="@android:color/white" />
 
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/marginStd"
                     android:layout_marginTop="5dp"
-                    android:background="@color/bg_color_button_unguMuda"
+                    android:background="@color/hijauGojek"
                     android:text="@string/share"
                     android:textColor="@android:color/white" />
             </LinearLayout>
